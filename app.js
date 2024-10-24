@@ -50,9 +50,16 @@ function checkAndUpdateDefaultImage(imageUrl) {
 }
 
 // Hàm fetch data từ API
-async function fetchDataFromAPI() {
+async function fetchDataFromAPI(searchTerm = "") {
     try {
-        const response = await fetch('https://67176e93b910c6a6e0282004.mockapi.io/api/project1/User');
+        let apiUrl = 'https://67176e93b910c6a6e0282004.mockapi.io/api/project1/User';
+        
+        // Nếu có từ khóa tìm kiếm, thêm query vào URL
+        if (searchTerm) {
+            apiUrl += `?search=${searchTerm}`;
+        }
+
+        const response = await fetch(apiUrl);
         const data = await response.json();
         originalData = data;
         getData = [...originalData];
@@ -446,6 +453,7 @@ filterData.addEventListener("input", ()=> {
     }
     currentIndex = 1;
     startIndex = 1;
+    fetchDataFromAPI(searchTerm);
     displayIndexBtn();
 });
 
